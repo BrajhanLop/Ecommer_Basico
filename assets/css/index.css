@@ -1,0 +1,14 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fdf1ec;
+}
+
+
+.bad-car{
+    font-size: 10px;
+}
