@@ -1,40 +1,41 @@
-// array de objetos
-let productosVenta = [
-  {
-    id: 1,
-    nombre: "Laptop HP 240 G8 Celeron N4020",
-    precio: 1395,
-    img: "https://tiendastec.com.pe/wp-content/uploads/2021/10/HP-240-G8-Celeron-N4020-1.jpg",
-  },
-  {
-    id: 2,
-    nombre: "Computadora HP Prodesk 600 G4 SFF",
-    precio: 3000,
-    img: "https://tiendastec.com.pe/wp-content/uploads/2019/10/HP-PRODESK-SFF-600.jpg",
-  },
-  {
-    id: 3,
-    nombre: "Mouse genius",
-    precio: 120,
-    img: "https://tiendastec.com.pe/wp-content/uploads/2021/04/Mouse-G203-Lightsync-Lila.jpg",
-  },
-  {
-    id: 4,
-    nombre: "Teclado Halion",
-    precio: 80,
-    img: "https://tiendastec.com.pe/wp-content/uploads/2021/09/Quasar-Outemu-Brown.jpg",
-  },
-];
+
 
 // capturamos elementos
 let contProd = document.getElementById("contenedor-productos");
 let cuerpoCarrito = document.getElementById("cuerpo-carrito");
 let cantidadCarrito = document.getElementById("cantCar");
 let btnMenos = document.getElementById("btn-menos");
+let ComprarAhora = document.getElementById("c-total")
 
 // variables
 let carrito = [];
 let contadorProducto = 1;
+
+
+
+const comprarTotal = () => {
+let total =0
+  if (carrito.length > 1) {
+    total =  carrito.reduce((acc,b)=>{
+       return acc += b.cantidad * b.precio},0)
+  }
+  else if (carrito.length === 1) {
+    total = carrito[0].cantidad * carrito[0].precio
+  }
+
+
+
+ComprarAhora.innerHTML = `
+<hr>
+<h4 class="pb-3">Total:   $ ${total}</h4>
+<button type="button" class="btn btn-warning fw-bold d-block mx-auto">Comprar Ahora</button>
+`
+}
+
+
+const guardarStorage = () => {
+  localStorage.setItem('car',JSON.stringify(carrito))
+}
 
 const crearCardProduct = (producto, index) => {
   let col = document.createElement("div");
@@ -44,7 +45,7 @@ const crearCardProduct = (producto, index) => {
     "col-md-6",
     "col-lg-4",
     "col-xl-3",
-    "my-3"
+    "my-3", "d-flex", "justify-content-center"
   );
   col.innerHTML = `                   
 
@@ -56,7 +57,7 @@ const crearCardProduct = (producto, index) => {
 <div class="product-details">
     <span class="product-catagory">Tecnologia - computo</span>
     <h4><a href="">${producto.nombre}</a></h4>
-    <p class="desc-prod">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
+    <p class="desc-prod">${producto.descripcion}</p>
     <div class="product-bottom-details">
         <div class="product-price">$ ${producto.precio}</div>
         <div class="product-links">
@@ -74,9 +75,12 @@ const renderizarProduct = () => {
   productosVenta.map((producto, index) => {
     crearCardProduct(producto, index);
   });
+  
+
 };
 
 renderizarProduct();
+
 
 const agregarCarrito = (index) => {
   let indiceEncontrado = carrito.findIndex(
@@ -87,15 +91,17 @@ const agregarCarrito = (index) => {
     // contadorProducto = 1;
     productosVenta[index].cantidad = 1;
     carrito.push(productosVenta[index]);
+    guardarStorage();
     Swal.fire("Excelente!", "Producto agregado al carrito!", "success");
     renderizarCarrito(carrito);
     actualizarCantidadCarrito();
   } else {
     //  contadorProducto += 1;
     productosVenta[index].cantidad += 1;
+    guardarStorage();
     renderizarCarrito(carrito);
 
-    console.log(carrito);
+    //console.log(carrito);
   }
 };
 
@@ -129,11 +135,13 @@ const renderizarCarrito = (carrito) => {
                     `;
     cuerpoCarrito.appendChild(row);
   });
+  comprarTotal();
 };
 
 const masCantidad = (index) => {
   let producSearch = carrito.find((p) => p.id === index);
   producSearch.cantidad += 1;
+  guardarStorage();
   renderizarCarrito(carrito);
 };
 
@@ -146,7 +154,8 @@ const menosCantidad = (index) => {
     producSearch.cantidad--;
   }
 
-  console.log(carrito);
+  //console.log(carrito);
+  guardarStorage();
   renderizarCarrito(carrito);
 };
 
@@ -157,6 +166,16 @@ const deleteProduct = (index) => {
 
   carrito.splice(producSearch,1)
   actualizarCantidadCarrito();
+  guardarStorage();
   renderizarCarrito(carrito);
+  
+}
+
+const cargarStorage= () => {
+  carrito = JSON.parse(localStorage.getItem('car'))
+  renderizarCarrito(carrito)
+  actualizarCantidadCarrito();
 
 }
+
+cargarStorage();
