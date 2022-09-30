@@ -179,10 +179,9 @@ const cargarStorage= () => {
   carrito = JSON.parse(localStorage.getItem('car'))
   if (carrito != null) {
     renderizarCarrito(carrito)
+    actualizarCantidadCarrito();
   }
   
-  actualizarCantidadCarrito();
-
 }
 
-cargarStorage();
+//cargarStorage();
