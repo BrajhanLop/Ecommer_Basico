@@ -10,7 +10,7 @@ let ComprarAhora = document.getElementById("c-total")
 // variables
 let carrito = [];
 let contadorProducto = 1;
-
+carrito = JSON.parse(localStorage.getItem('car'))
 
 
 const comprarTotal = () => {
@@ -176,12 +176,15 @@ const deleteProduct = (index) => {
 }
 
 const cargarStorage= () => {
-  carrito = JSON.parse(localStorage.getItem('car'))
+  
   if (carrito != null) {
     renderizarCarrito(carrito)
     actualizarCantidadCarrito();
   }
+  else {
+    carrito = []
+  }
   
 }
 
-//cargarStorage();
+cargarStorage();
