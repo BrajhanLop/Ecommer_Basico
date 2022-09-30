@@ -107,7 +107,11 @@ const agregarCarrito = (index) => {
 
 // redondo encima del carrito
 const actualizarCantidadCarrito = () => {
-  cantidadCarrito.innerText = carrito.length;
+
+  if (carrito != null) {
+    cantidadCarrito.innerText = carrito.length;
+  }
+  
 };
 
 const renderizarCarrito = (carrito) => {
@@ -173,7 +177,10 @@ const deleteProduct = (index) => {
 
 const cargarStorage= () => {
   carrito = JSON.parse(localStorage.getItem('car'))
-  renderizarCarrito(carrito)
+  if (carrito != null) {
+    renderizarCarrito(carrito)
+  }
+  
   actualizarCantidadCarrito();
 
 }
