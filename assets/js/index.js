@@ -111,9 +111,8 @@ const {nombre, cantidad} = productosVenta[index];
 
 // redondo encima del carrito
 const actualizarCantidadCarrito = () => {
-  if (carrito != null) {
-    cantidadCarrito.innerText = carrito.length;
-  }
+ carrito != null &&  (cantidadCarrito.innerText = carrito.length);
+ 
 };
 
 const renderizarCarrito = (carrito) => {

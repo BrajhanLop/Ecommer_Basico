@@ -1,5 +1,8 @@
 // array de objetos
-let productosVenta = [
+let productosVenta = []
+
+
+let productos1 = [
     {
       id: 1,
       nombre: "Laptop HP 240 G8 Celeron N4020",
@@ -56,6 +59,11 @@ let productosVenta = [
       img: "https://tiendastec.com.pe/wp-content/uploads/2022/02/Laptop-MSI-Katana-11UC.jpg",
       descripcion: "Con el nuevo procesador 11a Gen. Intel® Core™ i7 y gráficos NVIDIA® GeForce RTX™ , Katana 11UC ,está optimizada para liberar un verdadero desempeño durante el juego."
     },
+  
+  ];
+
+
+  let productos2 = [
     {
       id: 9,
       nombre: "Teclado Redragon MAGIC",
@@ -84,4 +92,8 @@ let productosVenta = [
       img: "https://tiendastec.com.pe/wp-content/uploads/2021/05/MOU-ANTRYX-CHROME-STORM-M750.jpg",
       descripcion: "El diseño ergonómico y la superficie de revestimiento de goma brindan comodidad y un mejor agarre para los estilos de agarre para diestros y zurdos."
     },
-  ];
+
+
+  ]
+
+  productosVenta = [...productos1, ...productos2]
