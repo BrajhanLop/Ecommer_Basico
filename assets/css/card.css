@@ -133,3 +133,7 @@ a
 .desc-prod {
     text-align: justify;
 }
+
+.fa-shopping-cart {
+    cursor: pointer;
+}

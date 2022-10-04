@@ -20,7 +20,7 @@ if(document.querySelector('#container-slider')){
      let elements = parentTarget.getElementsByTagName('li');
      let curElement, nextElement;
  
-     for(var i=0; i<elements.length;i++){
+     for(let i=0; i<elements.length;i++){
  
          if(elements[i].style.opacity==1){
              curElement = i;

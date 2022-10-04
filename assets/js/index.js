@@ -1,41 +1,35 @@
-
-
 // capturamos elementos
 let contProd = document.getElementById("contenedor-productos");
 let cuerpoCarrito = document.getElementById("cuerpo-carrito");
 let cantidadCarrito = document.getElementById("cantCar");
 let btnMenos = document.getElementById("btn-menos");
-let ComprarAhora = document.getElementById("c-total")
+let ComprarAhora = document.getElementById("c-total");
 
 // variables
 let carrito = [];
 let contadorProducto = 1;
-carrito = JSON.parse(localStorage.getItem('car'))
-
+carrito = JSON.parse(localStorage.getItem("car"));
 
 const comprarTotal = () => {
-let total =0
+  let total = 0;
   if (carrito.length > 1) {
-    total =  carrito.reduce((acc,b)=>{
-       return acc += b.cantidad * b.precio},0)
+    total = carrito.reduce((acc, b) => {
+      return (acc += b.cantidad * b.precio);
+    }, 0);
+  } else if (carrito.length === 1) {
+    total = carrito[0].cantidad * carrito[0].precio;
   }
-  else if (carrito.length === 1) {
-    total = carrito[0].cantidad * carrito[0].precio
-  }
 
-
-
-ComprarAhora.innerHTML = `
+  ComprarAhora.innerHTML = `
 <hr>
 <h4 class="pb-3">Total:   $ ${total}</h4>
 <button type="button" class="btn btn-warning fw-bold d-block mx-auto">Comprar Ahora</button>
-`
-}
-
+`;
+};
 
 const guardarStorage = () => {
-  localStorage.setItem('car',JSON.stringify(carrito))
-}
+  localStorage.setItem("car", JSON.stringify(carrito));
+};
 
 const crearCardProduct = (producto, index) => {
   let col = document.createElement("div");
@@ -45,7 +39,9 @@ const crearCardProduct = (producto, index) => {
     "col-md-6",
     "col-lg-4",
     "col-xl-3",
-    "my-3", "d-flex", "justify-content-center"
+    "my-3",
+    "d-flex",
+    "justify-content-center"
   );
   col.innerHTML = `                   
 
@@ -75,43 +71,49 @@ const renderizarProduct = () => {
   productosVenta.map((producto, index) => {
     crearCardProduct(producto, index);
   });
-  
-
 };
 
 renderizarProduct();
-
 
 const agregarCarrito = (index) => {
   let indiceEncontrado = carrito.findIndex(
     (producto) => producto.id === productosVenta[index].id
   );
 
-  if (indiceEncontrado === -1) {
-    // contadorProducto = 1;
+// Desestructurando
+const {nombre, cantidad} = productosVenta[index];
+
+  if (indiceEncontrado === -1) {   
+// Agregamos nueva propiedad cantidad para almacenar valor
     productosVenta[index].cantidad = 1;
+
     carrito.push(productosVenta[index]);
     guardarStorage();
-    Swal.fire("Excelente!", "Producto agregado al carrito!", "success");
+    Swal.fire(
+      'Excelente!',
+      `${nombre} agregado al carrito`,
+      'success'
+    )
     renderizarCarrito(carrito);
     actualizarCantidadCarrito();
   } else {
-    //  contadorProducto += 1;
+    
     productosVenta[index].cantidad += 1;
     guardarStorage();
     renderizarCarrito(carrito);
-
-    //console.log(carrito);
+    Swal.fire(
+      'Info!',
+      `El producto ${nombre} ya esta agregado al carrito!, Nueva cantidad: ${Number(cantidad) +1}!`,
+      'info'
+    )
   }
 };
 
 // redondo encima del carrito
 const actualizarCantidadCarrito = () => {
-
   if (carrito != null) {
     cantidadCarrito.innerText = carrito.length;
   }
-  
 };
 
 const renderizarCarrito = (carrito) => {
@@ -151,40 +153,27 @@ const masCantidad = (index) => {
 
 const menosCantidad = (index) => {
   let producSearch = carrito.find((p) => p.id === index);
-
-  if (producSearch.cantidad < 2) {
-    alert("no se puede bajar mas de 1");
-  } else {
-    producSearch.cantidad--;
-  }
-
-  //console.log(carrito);
+  // operador ternario
+  producSearch.cantidad < 2 ? alert("La cantidad minima es 1") :producSearch.cantidad--;
   guardarStorage();
   renderizarCarrito(carrito);
 };
 
-
 const deleteProduct = (index) => {
-
   let producSearch = carrito.findIndex((p) => p.id === index);
-
-  carrito.splice(producSearch,1)
+  carrito.splice(producSearch, 1);
   actualizarCantidadCarrito();
   guardarStorage();
   renderizarCarrito(carrito);
-  
-}
+};
 
-const cargarStorage= () => {
-  
+const cargarStorage = () => {
   if (carrito != null) {
-    renderizarCarrito(carrito)
+    renderizarCarrito(carrito);
     actualizarCantidadCarrito();
+  } else {
+    carrito = [];
   }
-  else {
-    carrito = []
-  }
-  
-}
+};
 
 cargarStorage();
