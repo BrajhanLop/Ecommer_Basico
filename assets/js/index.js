@@ -65,7 +65,7 @@ const crearCardProduct = (producto, index) => {
         <div class="product-price">$ ${producto.precio}</div>
         <div class="product-links">
             
-            <a class="fs-2 mx-2" onclick="agregarCarrito(${index})"><i class="fa fa-shopping-cart"></i></a>
+            <a class="fs-2 mx-2" onclick="agregarCarrito(${Number(producto.id)-1})"><i class="fa fa-shopping-cart"></i></a>
         </div>
     </div>
 </div>
