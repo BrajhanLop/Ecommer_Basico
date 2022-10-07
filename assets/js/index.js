@@ -5,6 +5,13 @@ let cantidadCarrito = document.getElementById("cantCar");
 let btnMenos = document.getElementById("btn-menos");
 let ComprarAhora = document.getElementById("c-total");
 
+
+//botones para filtrar
+let lap = document.getElementById('lap').onclick =function(){ filtrarProductos('laptop');}
+let pc= document.getElementById('pc').onclick =function(){ filtrarProductos('computadora');}
+let mouse = document.getElementById('mouse').onclick =function(){ filtrarProductos('mouse');}
+let teclado = document.getElementById('teclado').onclick =function(){ filtrarProductos('teclado');}
+
 // variables
 let carrito = [];
 let contadorProducto = 1;
@@ -79,7 +86,7 @@ const agregarCarrito = (index) => {
   let indiceEncontrado = carrito.findIndex(
     (producto) => producto.id === productosVenta[index].id
   );
-
+console.log(index);
 // Desestructurando
 const {nombre, cantidad} = productosVenta[index];
 
@@ -153,7 +160,11 @@ const masCantidad = (index) => {
 const menosCantidad = (index) => {
   let producSearch = carrito.find((p) => p.id === index);
   // operador ternario
-  producSearch.cantidad < 2 ? alert("La cantidad minima es 1") :producSearch.cantidad--;
+  producSearch.cantidad < 2 ? Swal.fire(
+    'Alto!',
+    'La cantidad mínima es 1!',
+    'warning'
+  ) :producSearch.cantidad--;
   guardarStorage();
   renderizarCarrito(carrito);
 };
@@ -176,3 +187,26 @@ const cargarStorage = () => {
 };
 
 cargarStorage();
+
+
+const filtrarProductos = (cat) => {
+  
+  let laptops = productosVenta.filter( prod => prod.categoria === cat)
+  contProd.innerHTML = ''
+  laptops.map((producto, index) => {
+    crearCardProduct(producto, index);
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

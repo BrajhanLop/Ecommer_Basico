@@ -12,3 +12,15 @@ body {
 .bad-car{
     font-size: 10px;
 }
+
+.catego-item {
+   cursor: pointer;
+    width: 150px;
+}
+.icon-category{
+    font-size: 25px;
+}
+
+.nombre-category {
+    font-weight:500;
+}
