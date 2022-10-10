@@ -74,7 +74,8 @@ const crearCardProduct = (producto, index) => {
   contProd.appendChild(col);
 };
 
-const renderizarProduct = () => {
+const renderizarProduct = async() => {
+  const productosVenta = await obtenerData() ;
   productosVenta.map((producto, index) => {
     crearCardProduct(producto, index);
   });
@@ -82,11 +83,15 @@ const renderizarProduct = () => {
 
 renderizarProduct();
 
-const agregarCarrito = (index) => {
+const agregarCarrito = async (index) => {
+  let productosVenta = await obtenerData()
+  
+
+
   let indiceEncontrado = carrito.findIndex(
     (producto) => producto.id === productosVenta[index].id
   );
-console.log(index);
+  
 // Desestructurando
 const {nombre, cantidad} = productosVenta[index];
 
@@ -103,16 +108,23 @@ const {nombre, cantidad} = productosVenta[index];
     )
     renderizarCarrito(carrito);
     actualizarCantidadCarrito();
-  } else {
     
-    productosVenta[index].cantidad += 1;
+  } else {
+   
+    let nuevoIndice = carrito.findIndex(
+      (producto) => producto.id === productosVenta[index].id
+    );
+
+    carrito[nuevoIndice].cantidad++;
+
     guardarStorage();
     renderizarCarrito(carrito);
     Swal.fire(
       'Info!',
-      `El producto ${nombre} ya esta agregado al carrito!, Nueva cantidad: ${Number(cantidad) +1}!`,
+      `El producto ${nombre} ya esta agregado al carrito!, Nueva cantidad: ${Number(carrito[nuevoIndice].cantidad) }!`,
       'info'
     )
+    
   }
 };
 
@@ -189,8 +201,8 @@ const cargarStorage = () => {
 cargarStorage();
 
 
-const filtrarProductos = (cat) => {
-  
+const filtrarProductos = async(cat) => {
+  let productosVenta = await obtenerData()
   let laptops = productosVenta.filter( prod => prod.categoria === cat)
   contProd.innerHTML = ''
   laptops.map((producto, index) => {
