@@ -30,9 +30,12 @@ const comprarTotal = () => {
   ComprarAhora.innerHTML = `
 <hr>
 <h4 class="pb-3">Total:   $ ${total}</h4>
-<button type="button" class="btn btn-warning fw-bold d-block mx-auto">Comprar Ahora</button>
+<a href="./assets/page/purchase.html"> <button type="button" class="btn btn-warning fw-bold d-block mx-auto" onclick="purchase">Comprar Ahora</button></a> 
 `;
+return total;
 };
+
+
 
 const guardarStorage = () => {
   localStorage.setItem("car", JSON.stringify(carrito));
@@ -82,6 +85,8 @@ const renderizarProduct = async() => {
 };
 
 renderizarProduct();
+
+
 
 const agregarCarrito = async (index) => {
   let productosVenta = await obtenerData()
@@ -209,7 +214,6 @@ const filtrarProductos = async(cat) => {
     crearCardProduct(producto, index);
   });
 }
-
 
 
 
